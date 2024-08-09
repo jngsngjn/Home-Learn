@@ -18,6 +18,7 @@ public class BoardCreateDto {
     private Boolean emergency;
 
     private MultipartFile file;
+}
 
 /*
   JSON 요청 BODY 체크 후, form-data 선택. Key값과 Value값으로 요청
@@ -31,4 +32,3 @@ public class BoardCreateDto {
 
   %null로 하고 싶다면 file 입력할 필요없음
 */
-}

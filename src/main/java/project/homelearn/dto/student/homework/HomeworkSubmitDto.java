@@ -15,6 +15,7 @@ public class HomeworkSubmitDto {
     private String description;
 
     private MultipartFile file;
+}
 
 /*
   JSON 요청 BODY 체크 후, form-data 선택. Key값과 Value값으로 요청
@@ -25,4 +26,3 @@ public class HomeworkSubmitDto {
   description       내용
   file              업로드할 파일
 */
-}

@@ -1,9 +1,12 @@
 package project.homelearn.dto.manager.board;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +22,14 @@ public class BoardReadDto {
     private String content;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDateTime createDate;
+
+    @NotNull
     private boolean emergency;
+
+    private String filePath;
+    private String uploadFileName;
 }
 
 /*

@@ -31,3 +31,8 @@ public class NoticeReadDto {
     private String filePath;
     private String uploadFileName;
 }
+
+/*
+강사 공지사항 조회
+GET 요청 / localhost:8080/students/notification-boards/teachers?page=0 -> ?page=? (조회 할 페이지값 입력)
+ */

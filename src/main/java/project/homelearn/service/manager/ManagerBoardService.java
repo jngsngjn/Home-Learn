@@ -3,8 +3,6 @@ package project.homelearn.service.manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,29 +56,23 @@ public class ManagerBoardService {
         }
     }
 
-    // 조회를 위한 DTO변환
-    private static List<BoardReadDto> getAllManagerBoards(Page<ManagerBoard> managerBoards) {
-        return managerBoards.stream()
-                .map(managerBoard -> new BoardReadDto(
-                        managerBoard.getId(),
-                        managerBoard.getTitle(),
-                        managerBoard.getContent(),
-                        managerBoard.isEmergency()
-                )).toList();
+    // 변환된 DTO, 조회 서비스
+    public Page<BoardReadDto> getManagerBoards(Pageable pageable) {
+        Page<ManagerBoard> managerBoards = managerBoardRepository.findManagerBoardsBy(pageable);
+        return managerBoards.map(this::convertToListWithFileDto);
     }
 
-    // 변환된 DTO, 조회 서비스
-    public Page<BoardReadDto> getManagerBoards(int page, int size) {
-        Page<ManagerBoard> managerBoards;
-        Pageable pageable = PageRequest.of(page, size);
-        try {
-            managerBoards = managerBoardRepository.findManagerBoardsBy(pageable);
-            List<BoardReadDto> boardReadDtoList = getAllManagerBoards(managerBoards);
-            return new PageImpl<>(boardReadDtoList, pageable, managerBoards.getTotalElements());
-        } catch (Exception e) {
-            log.error("Error getting manager boards", e);
-            return Page.empty();
-        }
+    // 조회를 위한 DTO변환
+    public BoardReadDto convertToListWithFileDto (ManagerBoard managerBoard) {
+        return new BoardReadDto(
+                managerBoard.getId(),
+                managerBoard.getTitle(),
+                managerBoard.getContent(),
+                managerBoard.getCreatedDate(),
+                managerBoard.isEmergency(),
+                managerBoard.getFilePath(),
+                managerBoard.getUploadFileName()
+        );
     }
 
     // 수정 서비스
